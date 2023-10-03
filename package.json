@@ -1,11 +1,11 @@
 {
-    "name": "audio-vis-web",
-    "version": "1.0.0",
-    "description": "",
-    "devDependencies": {
-      "live-server": "^1.2.1"
-    },
-    "scripts": {
-      "start": "live-server src"
-    }
+  "name": "audio-vis-web",
+  "version": "1.0.0",
+  "description": "",
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  },
+  "scripts": {
+    "start": "live-server src"
   }
+}

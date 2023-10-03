@@ -1,5 +1,6 @@
 let audioContext;
 let audio;
+let gainNode;
 
 // streaming audio
 function mousePressed() {
@@ -14,9 +15,16 @@ function mousePressed() {
 
         audio.play();
 
+        // create a media element source node
         const source = audioContext.createMediaElementSource(audio);
 
-        source.connect(audioContext.destination);
+        // create a gain node
+        gainNode = audioContext.createGain();
+
+        source.connect(gainNode);
+
+        // wire the gain to speaker
+        gainNode.connect(audioContext.destination);
     } else {
         // stop the audio
         audio.pause();
@@ -41,7 +49,15 @@ function draw() {
 
     const dim = min(width, height);
     if (audioContext) {
-        polygon(width / 2, height / 2, dim * 0.1, 4, PI / 4);
+        const volume = abs(mouseY - height / 2) / (height / 2);
+        
+        // gainNode.gain.value = volume;
+        // schedule a gradual shift in value with a small time constant
+        gainNode.gain.setTargetAtTime(volume, audioContext.currentTime, 0.01);
+
+        // draw a volume meter
+        rectMode(CENTER);
+        rect(width / 2, height / 2, dim * 0.05, dim * volume);
     } else {
         polygon(width / 2, height / 2, dim * 0.1, 3);
     }
